@@ -34,7 +34,8 @@ TEST_CASE("Test1", "enqueue")
 TEST_CASE("Test2", "enqueue")
 {
     pqueue *queue = p_init();
-
+    char *customers[6] = {(char*)"Apple",(char*)"Microsoft",(char*)"Tesla",(char*)"Qualcomm",(char*)"AMD"};
+    
     p_enqueue(queue, "Microsoft", 6);
     p_enqueue(queue, "AMD", 10);
     p_enqueue(queue, "Apple", 1);
@@ -50,6 +51,12 @@ TEST_CASE("Test2", "enqueue")
     REQUIRE(queue->head->next->next->next->next != NULL);
     REQUIRE(queue->head->next->next->next->next->priority == 10);
     REQUIRE(queue->head->next->next->next->next->next == NULL);
+    
+    element *tmp = queue->head;
+    for(int i = 0; i < 5; i++){
+        REQUIRE(strcmp(tmp->data, customers[i]) == 0);
+        tmp = tmp->next;
+    }
 }
 
 TEST_CASE("Test3", "enqueue")
@@ -84,7 +91,7 @@ TEST_CASE("Test4", "peek")
 }
 
 TEST_CASE("Test5", "peek")
-{    
+{
     element *tmp = p_peek(NULL);
     INFO("Test Case for peek: handle NULL values.");
     REQUIRE(tmp == NULL);
