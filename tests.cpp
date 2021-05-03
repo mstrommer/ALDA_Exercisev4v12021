@@ -23,12 +23,12 @@ TEST_CASE("Test1", "enqueue")
     p_enqueue(queue, "Qualcomm", 8);
     
     INFO("Test Case for enqueue: Queue not linked correctly yet.");
-    REQUIRE(queue->head != NULL);
-    REQUIRE(queue->head->next != NULL);
-    REQUIRE(queue->head->next->next != NULL);
-    REQUIRE(queue->head->next->next->next != NULL);
-    REQUIRE(queue->head->next->next->next->next != NULL);
-    REQUIRE(queue->head->next->next->next->next->next == NULL);
+    element *tmp = queue->head;
+    for(int i = 0; i < 5; i++){
+        REQUIRE(tmp != NULL);
+        tmp = tmp->next;
+    }
+    REQUIRE(tmp == NULL);
 }
 
 TEST_CASE("Test2", "enqueue")
@@ -43,17 +43,9 @@ TEST_CASE("Test2", "enqueue")
     p_enqueue(queue, "Qualcomm", 8);
     
     INFO("Test Case for enqueue: Queue not ordered or linked correctly yet.");
-    REQUIRE(queue->head != NULL);
-    REQUIRE(strcmp(queue->head->data, "Apple") == 0);
-    REQUIRE(queue->head->priority == 1);
-    REQUIRE(queue->head->next->next != NULL);
-    REQUIRE(queue->head->next->next->next != NULL);
-    REQUIRE(queue->head->next->next->next->next != NULL);
-    REQUIRE(queue->head->next->next->next->next->priority == 10);
-    REQUIRE(queue->head->next->next->next->next->next == NULL);
-    
     element *tmp = queue->head;
     for(int i = 0; i < 5; i++){
+        REQUIRE(tmp != NULL);
         REQUIRE(strcmp(tmp->data, customers[i]) == 0);
         tmp = tmp->next;
     }
