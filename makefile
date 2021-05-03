@@ -5,20 +5,20 @@
 CXX=g++
 CPPFLAGS=--std=c++17
 
-DEPS=sudoku.hpp lib/catch.hpp
-OBJ=main.o sudoku.o tests.o
+DEPS=pqueue.hpp lib/catch.hpp
+OBJ=main.o pqueue.o tests.o
 
 all: clean test
 
 %.o: %.cpp $(DEPS)
 	$(CXX) -c -o $@ $< $(CPPFLAGS)
 
-exercise3: $(OBJ)
+exercise4: $(OBJ)
 	$(CXX) -o $@ $^ $(CPPFLAGS)
 
-test: exercise3
+test: exercise4
 	# executes all tests
-	./exercise3
+	./exercise4
 
 clean:
-	rm -f exercise3
+	rm -f exercise4

@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_RUNNER
 #define TEST 1 // Always change to 1 before your final submission to Github Classroom.
 #include "lib/catch.hpp"
-#include "sudoku.hpp"
+#include "pqueue.hpp"
 #include <stdlib.h>
 
 // DO NOT CHANGE THIS METHOD
@@ -15,10 +15,11 @@ int runCatchTests(int argc, char* const argv[])
  */
 int main(int argc, char* const argv[] ){
     // =====================
-    // SUDOKU
+    // Priority Queue
     // ---------------------
-    // Test your implemenation here (game[][], init, solve, print):
+    // Test your implemenation here:
     
+    pqueue *queue = p_init();
     
   
     

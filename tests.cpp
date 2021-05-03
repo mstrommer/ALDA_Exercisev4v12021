@@ -4,119 +4,213 @@
 
 //#define CATCH_CONFIG_MAIN // defines main() automatically
 #include "lib/catch.hpp"
-#include "sudoku.hpp"
+#include "pqueue.hpp"
 #include <string.h>
 
 
 // =====================
-// Sudoku Testcases
+// Priority Queue Testcases
 // ---------------------
 
-TEST_CASE("Test1", "Sudoku")
+TEST_CASE("Test1", "enqueue")
 {
-    int result = 0;
-    int actual[SIZE][SIZE];
-    int initial[SIZE][SIZE] = {
-        {0, 1, 0, 0, 0, 9, 0, 5, 0},
-        {0, 9, 0, 0, 0, 0, 4, 8, 0},
-        {0, 6, 0, 1, 0, 4, 0, 0, 0},
-        {0, 0, 5, 0, 0, 0, 9, 3, 0},
-        {0, 0, 0, 7, 0, 2, 0, 0, 0},
-        {0, 2, 1, 0, 0, 0, 8, 0, 0},
-        {4, 0, 0, 0, 8, 0, 6, 0, 9},
-        {0, 0, 0, 0, 6, 0, 5, 0, 3},
-        {2, 0, 0, 0, 3, 0, 0, 0, 0},
-    };
-    int expected[SIZE][SIZE] = {
-        {3, 1, 4, 8, 2, 9, 7, 5, 0},
-        {0, 9, 0, 0, 0, 0, 4, 8, 0},
-        {0, 6, 0, 1, 0, 4, 0, 0, 0},
-        {0, 0, 5, 0, 0, 0, 9, 3, 0},
-        {0, 0, 0, 7, 0, 2, 0, 0, 0},
-        {0, 2, 1, 0, 0, 0, 8, 0, 0},
-        {4, 0, 0, 0, 8, 0, 6, 0, 9},
-        {0, 0, 0, 0, 6, 0, 5, 0, 3},
-        {2, 0, 0, 0, 3, 0, 0, 0, 0},
-    };
-    init(initial);
-    result = solve(0,0);
-    getResult(actual);
-    if(memcmp(actual, expected, sizeof(initial)) == 0){
-        INFO("Solution helper: if your Sudoku Solver gets 'stuck' in the first row, consider using the remove function at some point in your algorithm.");
-        REQUIRE(memcmp(actual, expected, sizeof(initial)) != 0);
-    }
-    INFO("Test Case: solve hasn't found a solution yet.");
-    REQUIRE(result==1);
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    
+    INFO("Test Case for enqueue: Queue not linked correctly yet.");
+    REQUIRE(queue->head != NULL);
+    REQUIRE(queue->head->next != NULL);
+    REQUIRE(queue->head->next->next != NULL);
+    REQUIRE(queue->head->next->next->next != NULL);
+    REQUIRE(queue->head->next->next->next->next != NULL);
+    REQUIRE(queue->head->next->next->next->next->next == NULL);
 }
 
-
-TEST_CASE("Test2", "Sudoku")
+TEST_CASE("Test2", "enqueue")
 {
-    int result = 0;
-    int actual[SIZE][SIZE];
-    int initial[SIZE][SIZE] = {
-        {0, 1, 0, 0, 0, 9, 0, 5, 0},
-        {0, 9, 0, 0, 0, 0, 4, 8, 0},
-        {0, 6, 0, 1, 0, 4, 0, 0, 0},
-        {0, 0, 5, 0, 0, 0, 9, 3, 0},
-        {0, 0, 0, 7, 0, 2, 0, 0, 0},
-        {0, 2, 1, 0, 0, 0, 8, 0, 0},
-        {4, 0, 0, 0, 8, 0, 6, 0, 9},
-        {0, 0, 0, 0, 6, 0, 5, 0, 3},
-        {2, 0, 0, 0, 3, 0, 0, 0, 0},
-    };
-    int expected[SIZE][SIZE] = {
-        {3, 1, 4, 8, 7, 9, 2, 5, 6},
-        {5, 9, 7, 3, 2, 6, 4, 8, 1},
-        {8, 6, 2, 1, 5, 4, 3, 9, 7},
-        {7, 4, 5, 6, 1, 8, 9, 3, 2},
-        {9, 3, 8, 7, 4, 2, 1, 6, 5},
-        {6, 2, 1, 5, 9, 3, 8, 7, 4},
-        {4, 7, 3, 2, 8, 5, 6, 1, 9},
-        {1, 8, 9, 4, 6, 7, 5, 2, 3},
-        {2, 5, 6, 9, 3, 1, 7, 4, 8},
-    };
-    init(initial);
-    result = solve(0,0);
-    getResult(actual);
-    INFO("Test Case: valid Sudoku board failed.");
-    REQUIRE(memcmp(actual, expected, sizeof(initial)) == 0);
-    INFO("Test Case: return value not correct.");
-    REQUIRE(result == 1);
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    
+    INFO("Test Case for enqueue: Queue not ordered or linked correctly yet.");
+    REQUIRE(queue->head != NULL);
+    REQUIRE(strcmp(queue->head->data, "Apple") == 0);
+    REQUIRE(queue->head->priority == 1);
+    REQUIRE(queue->head->next->next != NULL);
+    REQUIRE(queue->head->next->next->next != NULL);
+    REQUIRE(queue->head->next->next->next->next != NULL);
+    REQUIRE(queue->head->next->next->next->next->priority == 10);
+    REQUIRE(queue->head->next->next->next->next->next == NULL);
 }
 
-
-TEST_CASE("Test3", "Sudoku")
+TEST_CASE("Test3", "enqueue")
 {
-    int result = 0;
-    int actual[SIZE][SIZE];
-    int initial[SIZE][SIZE] = {
-        {0, 1, 0, 0, 0, 9, 0, 5, 0},
-        {0, 9, 0, 0, 0, 0, 4, 8, 0},
-        {0, 6, 0, 1, 0, 4, 0, 0, 0},
-        {0, 0, 5, 0, 0, 0, 9, 3, 0},
-        {0, 0, 0, 7, 0, 2, 0, 0, 0},
-        {0, 2, 1, 0, 0, 0, 8, 0, 0},
-        {4, 0, 0, 0, 8, 6, 6, 0, 9},
-        {0, 0, 0, 0, 6, 0, 5, 0, 3},
-        {2, 0, 0, 0, 3, 0, 0, 0, 0},
-    };
-    int expected[SIZE][SIZE] = {
-        {0, 1, 0, 0, 0, 9, 0, 5, 0},
-        {0, 9, 0, 0, 0, 0, 4, 8, 0},
-        {0, 6, 0, 1, 0, 4, 0, 0, 0},
-        {0, 0, 5, 0, 0, 0, 9, 3, 0},
-        {0, 0, 0, 7, 0, 2, 0, 0, 0},
-        {0, 2, 1, 0, 0, 0, 8, 0, 0},
-        {4, 0, 0, 0, 8, 6, 6, 0, 9},
-        {0, 0, 0, 0, 6, 0, 5, 0, 3},
-        {2, 0, 0, 0, 3, 0, 0, 0, 0},
-    };
-    init(initial);
-    result = solve(0,0);
-    getResult(actual);
-    INFO("Test Case: invalid Sudoku board failed.");
-    REQUIRE(memcmp(actual, expected, sizeof(initial)) == 0);
-    INFO("Test Case: return value not correct.");
-    REQUIRE(result == 0);
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    
+    INFO("Test Case for enqueue: element count not correct.");
+    REQUIRE(queue->count == 5);
+}
+
+TEST_CASE("Test4", "peek")
+{
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    
+    element *tmp = p_peek(queue);
+    INFO("Test Case for peek: no element returned yet.");
+    REQUIRE(tmp != NULL);
+    INFO("Test Case for peek: wrong element returned.");
+    REQUIRE(strcmp(tmp->data, "Apple") == 0);
+}
+
+TEST_CASE("Test5", "peek")
+{    
+    element *tmp = p_peek(NULL);
+    INFO("Test Case for peek: handle NULL values.");
+    REQUIRE(tmp == NULL);
+}
+
+TEST_CASE("Test6", "dequeue")
+{
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    p_dequeue(queue);
+    
+    INFO("Test Case for dequeue: dequeue not working correctly yet.");
+    REQUIRE(queue->head != NULL);
+    REQUIRE(strcmp(queue->head->data, "Microsoft") == 0);
+    REQUIRE(queue->head->priority == 6);
+}
+
+TEST_CASE("Test7", "dequeue")
+{
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    p_dequeue(queue);
+    
+    INFO("Test Case for dequeue: queue count not correct.");
+    REQUIRE(queue->count == 4);
+}
+
+TEST_CASE("Test8", "dequeue")
+{
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+    p_dequeue(queue);
+    p_dequeue(queue);
+    p_dequeue(queue);
+    p_dequeue(queue);
+    p_dequeue(queue);
+    
+    INFO("Test Case for dequeue all: not working correctly.");
+    REQUIRE(queue->head == NULL);
+    REQUIRE(queue->count == 0);
+}
+
+TEST_CASE("Test9", "incrementPriority")
+{
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 2);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+
+    p_incrementPriority(queue, "Tesla", 1);
+    
+    INFO("Test Case for incrementePriority: order of queue not updated accordingly to priority.");
+    REQUIRE(queue->head != NULL);
+    REQUIRE(strcmp(queue->head->data, "Tesla") == 0);
+    REQUIRE(queue->head->priority == 1);
+}
+
+TEST_CASE("Test10", "incrementPriority")
+{
+    pqueue *queue = p_init();
+
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+
+    p_incrementPriority(queue, "Apple", 9);
+    p_incrementPriority(queue, "Microsoft", 2);
+    
+    INFO("Test Case for incrementePriority: priority only needs to update if it's higher than before.");
+    REQUIRE(queue->head != NULL);
+    REQUIRE(strcmp(queue->head->data, "Apple") == 0);
+    REQUIRE(queue->head->priority == 1);
+    REQUIRE(queue->head->next != NULL);
+    REQUIRE(strcmp(queue->head->next->data, "Microsoft") == 0);
+    REQUIRE(queue->head->next->priority == 2);
+}
+
+TEST_CASE("Test11", "isEmpty")
+{
+    pqueue *queue = p_init();
+
+    INFO("Test Case for isEmpty: queue should be empty.");
+    REQUIRE(p_isEmpty(queue) == 1);
+}
+
+TEST_CASE("Test12", "isEmpty")
+{
+    pqueue *queue = p_init();
+    
+    p_enqueue(queue, "Microsoft", 6);
+
+    INFO("Test Case for isEmpty: queue should not be empty.");
+    REQUIRE(p_isEmpty(queue) == 0);
+}
+
+TEST_CASE("Test13", "print")
+{
+    pqueue *queue = p_init();
+    
+    p_enqueue(queue, "Microsoft", 6);
+    p_enqueue(queue, "AMD", 10);
+    p_enqueue(queue, "Apple", 1);
+    p_enqueue(queue, "Tesla", 7);
+    p_enqueue(queue, "Qualcomm", 8);
+
+    INFO("Test Case for print: printing... (manual grading)");
+    p_print(queue);
+    REQUIRE(0 == 0);
 }
